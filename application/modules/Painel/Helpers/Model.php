@@ -186,6 +186,14 @@ class Model extends \Slim\Mvc\Model
 	}
 
 	/**
+	 * seta o valor de uma coluna
+	 */
+	public function setValue($field, $value)
+	{
+		$this->row[$field] = $value;
+	}
+
+	/**
 	 * Informa a visibilidade do campo conforme a tela do CRUD.
 	 * 
 	 * @param string $field Nome do campo

@@ -244,6 +244,9 @@ class Controller extends \Slim\Mvc\Controller
 
 		}
 
+		// executa antes de montar o form
+		$this->doBeforeForm();
+
 		// assina as variaveis
 		$this->view->core_model = $this->model;
 		$this->view->core_row = $row;
@@ -342,6 +345,7 @@ class Controller extends \Slim\Mvc\Controller
 	public function doBeforeUpdate($data) { return $data; }
 	public function doAfterDelete($id) {}
 	public function dobeforeDelete($id) {}
+	public function doBeforeForm() { }
 
 	
 }

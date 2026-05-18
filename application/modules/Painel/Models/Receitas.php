@@ -35,7 +35,7 @@ class Receitas extends \Application\Painel\Helpers\Model
 		$this->setVisibility("titulo", TRUE, TRUE, TRUE);
 		$this->setVisibility("idreceita_categoria", TRUE, TRUE, TRUE);
 		$this->setVisibility("conteudo", TRUE, TRUE, FALSE);
-		$this->setVisibility("data_cadastro", FALSE, FALSE, TRUE);
+		$this->setVisibility("data_cadastro", TRUE, TRUE, TRUE);
 
 		// seta o tamanho da coluna bootstrap
 		$this->setBootstrapColumnSize("titulo", 6);
