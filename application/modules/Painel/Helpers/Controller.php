@@ -168,7 +168,12 @@ class Controller extends \Slim\Mvc\Controller
 							unset($data[$column]);
 						}
 					}
+				}
 
+				// verifica se a coluna é vazia, se for da unset para não atualizar vazia
+				if($data[$column] === NULL) {
+					unset($data[$column]);
+					continue;
 				}
 
 			}
