@@ -19,3 +19,23 @@ CREATE TABLE usuarios (
 );
 
 INSERT INTO usuarios (email, password) VALUES ('Admin', 'test@localhost', '$2a$07$ZHyBfzO7xkSfuU5D3EIHGOmdI6DX2rSLu/.TPWCdAzu5Xugaqhby.'); -- senha 123mudar
+
+-- receitas
+create table receitas_categorias (
+	idreceita_categoria integer not null primary key AUTOINCREMENT,
+	titulo varchar(255)
+);
+create table receitas (
+	idreceita integer not null primary key AUTOINCREMENT,
+	idreceita_categoria integer null references receitas_categorias(idreceita_categoria),
+	titulo varchar(255),
+	conteudo TEXT,
+	data_cadastro date
+);
+create table receitas_ingredientes (
+	idreceita_ingredientes integer not null primary key AUTOINCREMENT,
+	idreceita integer not null references receitas(idreceita),
+	ingrediente varchar(255),
+	quantidade decimal(10,2),
+	unidade varchar(10)
+);
