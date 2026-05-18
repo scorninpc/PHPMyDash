@@ -1,0 +1,17 @@
+
+# Configurações
+Options -Indexes
+Options +FollowSymLinks
+
+SetEnv APPLICATION_ENV development
+SetEnv PUBLIC_DIR public_html
+
+# Rewrite
+RewriteEngine On
+
+# Basepath
+#RewriteBase /phpmypanel/public_html
+
+# Rewrite do slim
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

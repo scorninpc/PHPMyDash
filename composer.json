@@ -1,0 +1,38 @@
+{
+    "name": "scorninpc/phpmypanel",
+    "type": "project",
+    "description": "Um painel administrativo em branco em PHP ",
+    "keywords": ["slim","framework","slim 5","smarty 5","tabler","mvc","smarty","skel","php","admin","panel"],
+    "license": "AGPL-3.0",
+    "authors": [
+        {
+            "name": "Bruno Pitteli Gonçalves",
+            "email": "scorninpc@php.net",
+            "homepage": "https://andor.com.br"
+        }
+    ],
+
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:scorninpc/slim-smarty-view.git"
+        },
+         {
+            "type": "git",
+            "url": "git@github.com:scorninpc/slim-mvc.git"
+        }
+    ],
+
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+
+    "require": {
+        "scorninpc/slim-mvc": "3.0.0.x-dev",
+        "illuminate/database": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Application\\": "application/modules/"
+        }
+    }
+}
