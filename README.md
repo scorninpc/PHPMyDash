@@ -7,12 +7,10 @@ Um painel administrativo para gerenciamento familiar! Ter em um só lugar, resum
 > Docker (preferencial)
 1. Baixe esse projeto, em `Releases` ou `Download ZIP`. Caso clone, não esqueça de remover o `.git` após clonar
 2. Renomeie a pasta conforme o nome do seu projeto
-3. Configure o `public_html/.htaccess` removendo o `RewriteBase`
-4. Configure o `application/condifs/config.development.php` mudando `application.basepath` para vazio
-5. Dê permissão 777 recursiva para `application/tmp`
-6. Baixe as dependencias PHP com `composer update`
-7. Acesse a pasta `docker` e execute `docker compose up`
-8. Acesse seu projeto pelo navegador `http://localhost:8080/`
+3. Dê permissão 777 recursiva para `application/tmp`
+4. Baixe as dependencias PHP com `composer update`
+5. Acesse a pasta `docker` e execute `docker compose up`
+6. Acesse seu projeto pelo navegador `http://localhost:8080/`
 
 > Apache
 1. Baixe esse projeto, em `Releases` ou `Download ZIP`. Caso clone, não esqueça de remover o `.git` após clonar
