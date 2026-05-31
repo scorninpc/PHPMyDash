@@ -10,9 +10,11 @@ class FormField
 
 	public function __construct($config) 
 	{
-		$this->config = $config;
-		$this->request = \Slim\Mvc\Factory::get("request");
-		$this->view = \Slim\Mvc\Factory::get("view");
+		// recupera o request do app
+		$app = \PHPMyPanel\Internal\Application::getInstance();
+		$this->config = $app->getConfig();
+		$this->request = $app->getRequest();
+		$this->view = $app->getView();
 	}
 
 	/**
@@ -35,8 +37,7 @@ class FormField
 		$template = "";
 
 		// recupera o basepath
-		$config = \Slim\Mvc\Factory::get("config");
-		$basePath = $config['application']['basepath'];
+		$basePath = $this->config['application']['basepath'];
 
 		// recupera o valor já formatado para usar no value
 		// $original_value = $model->getValue($column['name'])??"";
@@ -73,6 +74,12 @@ class FormField
 
 			// date
 			case \Application\Painel\Helpers\Model::FIELDTYPE_DATE:
+
+				// força ser DATE, pois as vezes o banco salva DATETIME e da erro no input
+				if(strtotime($value??"") > 0) {
+					$value = date("Y-m-d", strtotime($value??""));
+				}
+
 				$template = "<input type=\"date\" name=\"%(name)s\" id=\"%(id)s\" value=\"%(value)s\" class=\"form-control %(classes)s\">";
 				break;
 
@@ -129,6 +136,34 @@ class FormField
 					
 				}
 
+				// se for um campo com opções (<select>)
+				else if($column['options'] !== NULL) {
+
+					// verifica se tem associação, pois se tiver INDEX => VALUE, ele salva o INDEX no banco
+					$assoc = count(array_filter(array_keys($column['options']), "is_string")) > 0;
+
+					// inicia o template
+					$template = "<select class=\"form-select %(classes)s\" id=\"%(id)s\" name=\"%(name)s\">\n";
+
+					// percorre as opções
+					foreach($column['options'] as $option_value => $option_description) {
+
+						// se tiver associação
+						if(!$assoc) {
+							// faz o valor ser iguala descrição
+							$option_value = $option_description;
+						}
+
+						// adiciona a opção
+						$template .= "<option value=\"" . $option_value . "\" " . (($value == $option_value) ? "selected" : "") . ">" . $option_description . "</option>\n";
+
+					}
+					
+					// finaliza o template
+					$template .= "</select>\n";
+
+				}
+
 				break;
 
 			case \Application\Painel\Helpers\Model::FIELDTYPE_INTEGER:
@@ -141,7 +176,19 @@ class FormField
 				}
 
 				break;
+
+			// decimal
 			case \Application\Painel\Helpers\Model::FIELDTYPE_DECIMAL:
+
+				if(($value??"") !== "") {
+					$value = number_format($value, 2, ",", ".");
+				}
+
+				$template = "<input type=\"text\" name=\"%(name)s\" id=\"%(id)s\" value=\"%(value)s\" placeholder=\"%(long_description)s\" class=\"form-control %(classes)s\">";
+				break;
+
+
+
 			default:
 				$template = "<input type=\"text\" name=\"%(name)s\" id=\"%(id)s\" value=\"%(value)s\" placeholder=\"%(long_description)s\" class=\"form-control %(classes)s\">";
 				break;
@@ -151,7 +198,7 @@ class FormField
 		$classes = implode(" ", $column['classes']);
 
 		// faz a troca do campo
-		$field_html = \Application\Main\Helpers\Strings::vsprintf_named($template, [
+		$field_html = \PHPMyPanel\Helpers\Strings::vsprintf_named($template, [
 			'name' => $column['name'],
 			'classes' => $classes,
 			'id' => $column['id']??$column['name'],
@@ -163,7 +210,7 @@ class FormField
 		]);
 
 		// faz a troca do template todo (coluna bootstrap)
-		$html = \Application\Main\Helpers\Strings::vsprintf_named($column_template, [
+		$html = \PHPMyPanel\Helpers\Strings::vsprintf_named($column_template, [
 			'name' => $column['name'],
 			'id' => $column['id']??$column['name'],
 			'description' => $column['description'],

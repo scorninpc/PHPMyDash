@@ -5,11 +5,11 @@ namespace Application\Painel\Helpers;
 /**
  * abstração do model, para os CRUDs conseguirem montar os formulários e listagens
  */
-class Model extends \Slim\Mvc\Model
+class Model extends \PHPMyPanel\Internal\Model
 {	
 	// configura o nome da tabela e a chave primaria
-	protected $table = "funcionalidades";
-	protected $primaryKey = "idfuncionalidade";
+	protected $table = "";
+	protected $primaryKey = "";
 
 	// armazena as colunas do model
 	protected $columns = [];
@@ -68,6 +68,7 @@ class Model extends \Slim\Mvc\Model
 			],
 			'file' => NULL,
 			'autocomplete' => NULL,
+			'options' => NULL
 		];
 
 		// a depender do tipo, ja configura alguns padrões
@@ -242,6 +243,17 @@ class Model extends \Slim\Mvc\Model
 	}
 
 	/**
+	 * Seta as opções do campo
+	 * 
+	 * @param string $name Nome do campo
+	 * @param array $options Vetor com as opções do campo
+	 */
+	public function setOptions(string $name, array $options=[])
+	{
+		$this->columns[$name]['options'] = $options;
+	}
+
+	/**
 	 * seta o tipo do campo manualmente
 	 */
 	public function setType($field, $type, $options=[])
@@ -305,8 +317,8 @@ class Model extends \Slim\Mvc\Model
 		// monta a configuração padrão
 		$defaults = [
 			'columns' => [
-				\Application\Main\Helpers\Db::raw($model->getPrimaryKey() . " as id"),
-				\Application\Main\Helpers\Db::raw($model->getDescriptionField() . " as label"),
+				\PHPMyPanel\Helpers\Db::raw($model->getPrimaryKey() . " as id"),
+				\PHPMyPanel\Helpers\Db::raw($model->getDescriptionField() . " as label"),
 			],
 			'where' => [
 				"LOWER(" . $model->getDescriptionField() . ") like '%' || :term: || '%'" // essa concatenação e o lower é feito para que funcione no sqlite tambem que noa possui ilike

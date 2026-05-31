@@ -5,7 +5,7 @@ namespace Application\Painel\Helpers;
 /**
  * abstração do controller, para os CRUDs ja terem sempre o indexAction, formAction e deleteAction
  */
-class Controller extends \Slim\Mvc\Controller
+class Controller extends \PHPMyPanel\Internal\Controller
 {
 	/**
 	 * armazena o model desse controller
@@ -18,29 +18,17 @@ class Controller extends \Slim\Mvc\Controller
 	public $request;
 
 	/**
-	 * inicializa o controller
-	 */
-	public function configure() {}
-
-	/**
-	 * construtor
-	 */
-	public function __construct($view, $container, $request, $response, $args)
-	{
-		// executa o hook
-		$this->configure();
-
-		// chama o parent
-		parent::__construct($view, $container, $request, $response, $args);
-	}
-
-	/**
 	 * faz a listagem dos registros
 	 */
 	public function indexAction()
 	{
-		// recupera os registros
+		// inicia a query
 		$select = $this->model->queryBuilder();
+
+		// cria o hook para manipulação da qeury
+		$select = $this->doBeforeList($select);
+
+		// recupera os registros
 		$rows =  $select->get();
 
 		// assina as variaveis
@@ -114,14 +102,14 @@ class Controller extends \Slim\Mvc\Controller
 							// verifica se o arquivo é valido
 							$filetype = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $arquivo['tmp_name']);
 							if(!in_array($filetype, $config['file']['allowed_mimes'])) {
-								\Application\Main\Helpers\Messages::error("Tipo do arquivo não permitido");
-								\Application\Main\Helpers\Redirect::back();
+								\PHPMyPanel\Helpers\Messages::error("Tipo do arquivo não permitido");
+								\PHPMyPanel\Helpers\Redirect::back();
 							}
 
 							// verifica se o diretório existe e é escrevivel (hahah)
 							if(!is_writable($config['file']['destination'])) {
-								\Application\Main\Helpers\Messages::error("Diretório \"" . ($config['file']['destination']) . "\" não possui permissão de escrita ou não existe");
-								\Application\Main\Helpers\Redirect::back();
+								\PHPMyPanel\Helpers\Messages::error("Diretório \"" . ($config['file']['destination']) . "\" não possui permissão de escrita ou não existe");
+								\PHPMyPanel\Helpers\Redirect::back();
 							}
 							
 							// caminho final do arquivo
@@ -190,12 +178,12 @@ class Controller extends \Slim\Mvc\Controller
 						$this->model->where($this->model->getPrimaryKey(), $id)->update($data);
 
 						// adiciona o alerta
-						\Application\Main\Helpers\Messages::success("Registro atualizado");
+						\PHPMyPanel\Helpers\Messages::success("Registro atualizado");
 					}
 					catch(\Exception $e) {
 
 						// adiciona o alerta
-						\Application\Main\Helpers\Messages::error("Problema ao atualizar o registro");
+						\PHPMyPanel\Helpers\Messages::error("Problema ao atualizar o registro");
 
 						throw $e;
 					}
@@ -223,12 +211,12 @@ class Controller extends \Slim\Mvc\Controller
 						$id = $this->model->getConnection()->getPdo()->lastInsertId();
 
 						// adiciona o alerta
-						\Application\Main\Helpers\Messages::success("Registro inserido");
+						\PHPMyPanel\Helpers\Messages::success("Registro inserido");
 					}
 					catch(\Exception $e) {
 
 						// adiciona o alerta
-						\Application\Main\Helpers\Messages::error("Problema ao inserir o registro");
+						\PHPMyPanel\Helpers\Messages::error("Problema ao inserir o registro");
 
 						throw $e;
 					}
@@ -272,12 +260,12 @@ class Controller extends \Slim\Mvc\Controller
 				$this->model->where($this->model->getPrimaryKey(), $id)->delete();
 
 				// adiciona o alerta
-				\Application\Main\Helpers\Messages::success("Registro removido");
+				\PHPMyPanel\Helpers\Messages::success("Registro removido");
 			}
 			catch(\Exception $e) {
 
 				// adiciona o alerta
-				\Application\Main\Helpers\Messages::error("Problema ao remover o registro");
+				\PHPMyPanel\Helpers\Messages::error("Problema ao remover o registro");
 
 				throw $e;
 			}
@@ -298,7 +286,7 @@ class Controller extends \Slim\Mvc\Controller
 	public function redirectAfterInsert($id)
 	{
 		// Retorna para a pagina anterior
-		\Application\Main\Helpers\Redirect::urlFor("painel", ['controller'=>$this->getParam("controller")]);
+		\PHPMyPanel\Helpers\Redirect::urlFor("painel", ['controller'=>$this->getParam("controller")]);
 	}
 
 	/**
@@ -307,7 +295,7 @@ class Controller extends \Slim\Mvc\Controller
 	public function redirectAfterUpdate($id)
 	{
 		// Retorna para a pagina anterior
-		\Application\Main\Helpers\Redirect::urlFor("painel", ['controller'=>$this->getParam("controller")]);
+		\PHPMyPanel\Helpers\Redirect::urlFor("painel", ['controller'=>$this->getParam("controller")]);
 	}
 
 	/**
@@ -316,29 +304,13 @@ class Controller extends \Slim\Mvc\Controller
 	public function redirectAfterDelete($id)
 	{
 		// Retorna para a pagina anterior
-		\Application\Main\Helpers\Redirect::urlFor("painel", ['controller'=>$this->getParam("controller")]);
+		\PHPMyPanel\Helpers\Redirect::urlFor("painel", ['controller'=>$this->getParam("controller")]);
 	}
-
-	/**
-	 * retorna no formato json
-	 */
-	public function json($payload, $status=200)
-	{
-		// se for um vetor, encoda json
-		if(is_array($payload)) {
-			$payload = json_encode($payload);
-		}
-
-		// retorna o json
-		$this->response->getBody()->write($payload);
-		return $this->response->withHeader("Content-Type", "application/json")->withStatus($status);
-	}
-
-	
 
 	/**
 	 * hooks
 	 */
+	public function doBeforeList($select) { return $select; }
 	public function doAfterInsert($id) {}
 	public function doBeforeInsert($data) { return $data; }
 	public function doAfterUpdate($id) {}
@@ -346,6 +318,5 @@ class Controller extends \Slim\Mvc\Controller
 	public function doAfterDelete($id) {}
 	public function dobeforeDelete($id) {}
 	public function doBeforeForm() { }
-
 	
 }

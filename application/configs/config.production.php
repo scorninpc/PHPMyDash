@@ -8,22 +8,22 @@ return [
 		'modules_location' => dirname(__FILE__) . "/../modules",
 		'basepath' => "",
 		
-		'display_error' => TRUE,
-		'display_debug' => TRUE,
+		'display_error' => FALSE,
+		'display_debug' => FALSE,
 		'log_errors' => TRUE,
 	],
 
 	'smarty' => [
 		'template_dir' => [
-			dirname(__FILE__) . "/../modules",
+			dirname(__FILE__) . "/../modules/",
 		],
 		'compile_dir' =>  dirname(__FILE__) . "/../tmp/templates_c",
 		'cache_dir' =>  dirname(__FILE__) . "/../tmp/templates_c",
 		'caching' => FALSE,
 		'cache_lifetime' => 4600,
-		'force_compile' => TRUE,
+		'force_compile' => FALSE,
 		'debugging' => FALSE,
-		'compile_check' => TRUE,
+		'compile_check' => FALSE,
 	],
 
 	'db' => [

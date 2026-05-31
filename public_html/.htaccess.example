@@ -12,7 +12,7 @@ SetEnv APPLICATION_DBCACHE 0
 RewriteEngine On
 
 # Basepath
-#RewriteBase /phpmypanel/public_html
+RewriteBase /phpmypanel/public_html
 
 # Images
 RewriteCond %{REQUEST_FILENAME} !-f

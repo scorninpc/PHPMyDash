@@ -2,7 +2,7 @@
 
 namespace Application\Painel\Controllers;
 
-class indexController extends \Application\Painel\Helpers\Controller
+class indexController extends \PHPMyPanel\Internal\Controller
 {
 	public function indexAction()
 	{ }
@@ -27,7 +27,7 @@ class indexController extends \Application\Painel\Helpers\Controller
 		if($term == "'") {
 			$term = "";
 		}
-		$this->setParam("term", $term);
+		$this->getRequest()->setParam("term", $term);
 
 		// cria o model
 		if(!class_exists($model_name)) {

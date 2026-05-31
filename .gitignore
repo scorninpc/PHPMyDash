@@ -1,7 +1,30 @@
+# temporary
+application/tmp/templates_c/*
+!application/tmp/**/.gitkeep
+.DS_Store
+bkp.tar.gz
 composer.lock
-vendor/
-application/tmp/templates_c/*.php
-application/tmp/database.sqlite3
-public_html/files/*/*.*
 
+# vendor
+vendor/
+
+# local data
+application/tmp/database.sqlite3
+public_html/.htaccess
+public_html/files/**/*
+!public_html/files/**/.gitkeep
+
+# home linux
+.bash_history
+.bash_logout
+.bashrc
+.cache/
+.cloud-locale-test.skip
+.config/
+.local/
+.profile
+.ssh/
+logs/
 docs/
+.gitconfig
+.sqlite_history
