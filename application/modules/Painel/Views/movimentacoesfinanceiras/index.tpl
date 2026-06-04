@@ -59,7 +59,17 @@
 									{if $core_model->getVisibility($column['name'], 'list')}
 									<td>
 										<a href="{$this->url(['controller'=>$core_funcionalidade['controlador'], 'action'=>"form", $core_model->getPrimaryKey()=>$row[$core_model->getPrimaryKey()]], "painel")}">
-											{$this->getFormatedValue($core_model, $column['name'], $row)|default:"&nbsp;"}
+											{if $column['name'] == "tipo"}
+												{if $row['tipo'] == "S"}
+													<span class="badge badge-sm bg-red-lt">Saída</span>
+												{else}
+													<span class="badge badge-sm bg-teal-lt">Entrada</span>
+												{/if}
+											{else if $column['name'] == "valor"}
+												R$ {$this->getFormatedValue($core_model, $column['name'], $row)|default:"&nbsp;"}
+											{else}
+												{$this->getFormatedValue($core_model, $column['name'], $row)|default:"&nbsp;"}
+											{/if}
 										</a>
 									</td>
 									{/if}
@@ -136,7 +146,6 @@
 				</div>
 			</div> {* footer *}
 
-
-		</div>
+		</div> 
 	</div>
 </div>

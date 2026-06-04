@@ -20,6 +20,16 @@ class movimentacoesfinanceirasController extends \Application\Painel\Helpers\Con
 	}
 
 	/**
+	 * antes de montar a listagem
+	 */
+	public function doBeforeList($select)
+	{
+		$select->orderByRaw("DATE(data_movimento) DESC");
+
+		return $select;
+	}
+
+	/**
 	 * antes de montar o formulário
 	 */
 	public function doBeforeForm()
@@ -34,5 +44,14 @@ class movimentacoesfinanceirasController extends \Application\Painel\Helpers\Con
 	{
 		
 	}
+
+	/**
+	 * hooks
+	 */
+	public function doAfterInsert($id) {}
+	public function doAfterUpdate($id) {}
+	public function doBeforeUpdate($data) { return $data; }
+	public function doAfterDelete($id) {}
+	public function dobeforeDelete($id) {}
 
 }

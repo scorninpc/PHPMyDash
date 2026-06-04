@@ -28,8 +28,15 @@ class Controller extends \PHPMyPanel\Internal\Controller
 		// cria o hook para manipulação da qeury
 		$select = $this->doBeforeList($select);
 
+		// seta a pagina atual
+		$currentPage = (int)$this->getParam("pagina", 1);
+		\Illuminate\Pagination\Paginator::currentPageResolver(function() use ($currentPage) {
+			return $currentPage;
+		});
+
 		// recupera os registros
-		$rows =  $select->get();
+		$rows = $select->paginate(30);
+		// $rows =  $select->get();
 
 		// assina as variaveis
 		$this->view->core_rows = $rows;

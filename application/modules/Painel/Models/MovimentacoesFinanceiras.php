@@ -17,14 +17,14 @@ class MovimentacoesFinanceiras extends \Application\Painel\Helpers\Model
 	public function configure()
 	{
 		// adiciona os campos da tabela
-		$this->addField("idconta_financeira", \Application\Painel\Helpers\Model::FIELDTYPE_INTEGER, "Conta", "Conta da movimentação financeira");
-		$this->addField("data_movimento", \Application\Painel\Helpers\Model::FIELDTYPE_DATE, "Data", "Data da movimentação financeira");
-		$this->addField("efetivado", \Application\Painel\Helpers\Model::FIELDTYPE_BOOLEAN, "Efetivado", "Informa se a movimentação financeira está efetivado");
-		$this->addField("valor", \Application\Painel\Helpers\Model::FIELDTYPE_DECIMAL, "Valor", "Valor da movimentação financeira");
 		$this->addField("tipo", \Application\Painel\Helpers\Model::FIELDTYPE_VARCHAR, "Tipo", "Tipo da movimentação financeira");
+		$this->addField("data_movimento", \Application\Painel\Helpers\Model::FIELDTYPE_DATE, "Data", "Data da movimentação financeira");
+		$this->addField("valor", \Application\Painel\Helpers\Model::FIELDTYPE_DECIMAL, "Valor", "Valor da movimentação financeira");
 		$this->addField("parceiro", \Application\Painel\Helpers\Model::FIELDTYPE_VARCHAR, "Parceiro", "Parceiro da movimentação financeira");
 		$this->addField("idnatureza_financeira", \Application\Painel\Helpers\Model::FIELDTYPE_INTEGER, "Natureza", "Natureza da movimentação financeira");
+		$this->addField("idconta_financeira", \Application\Painel\Helpers\Model::FIELDTYPE_INTEGER, "Conta", "Conta da movimentação financeira");
 		$this->addField("descricao", \Application\Painel\Helpers\Model::FIELDTYPE_TEXT, "Descrição", "Descrição da movimentação financeira");
+		$this->addField("efetivado", \Application\Painel\Helpers\Model::FIELDTYPE_BOOLEAN, "Efetivado", "Informa se a movimentação financeira está efetivado");
 
 		// seta o campo descrição
 		$this->setDescriptionField("idconta_financeira");
@@ -42,6 +42,12 @@ class MovimentacoesFinanceiras extends \Application\Painel\Helpers\Model
 		// seta o autocomplete
 		$this->setAutocomplete("idconta_financeira", "\\Application\\Painel\\Models\\ContasFinanceiras");
 		$this->setAutocomplete("idnatureza_financeira", "\\Application\\Painel\\Models\\NaturezasFinanceiras");
+
+		// seta as opções
+		$this->setOptions("tipo", [
+			'S' => "Saída",
+			'E' => "Entrada",
+		]);
 
 		// seta o tamanho da coluna bootstrap
 		$this->setBootstrapColumnSize("idconta_financeira", 4);
