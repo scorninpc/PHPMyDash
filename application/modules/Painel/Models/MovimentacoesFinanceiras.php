@@ -26,8 +26,11 @@ class MovimentacoesFinanceiras extends \Application\Painel\Helpers\Model
 		$this->addField("descricao", \Application\Painel\Helpers\Model::FIELDTYPE_TEXT, "Descrição", "Descrição da movimentação financeira");
 		$this->addField("efetivado", \Application\Painel\Helpers\Model::FIELDTYPE_BOOLEAN, "Efetivado", "Informa se a movimentação financeira está efetivado");
 
+		// seta o campo que sera usado de busca
+		$this->setSearchField(("(movimentacoes_financeiras.parceiro || movimentacoes_financeiras.descricao || T01.descricao || movimentacoes_financeiras.valor || movimentacoes_financeiras.data_movimento)"));
+
 		// seta o campo descrição
-		$this->setDescriptionField("idconta_financeira");
+		$this->setDescriptionField("parceiro");
 
 		// seta a visibilidade dos campos
 		$this->setVisibility("idconta_financeira", TRUE, TRUE, TRUE);

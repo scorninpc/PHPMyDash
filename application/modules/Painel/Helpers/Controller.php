@@ -22,12 +22,47 @@ class Controller extends \PHPMyPanel\Internal\Controller
 	 */
 	public function indexAction()
 	{
+		// se tem post, é porque tem busca
+		$query = $this->getParam("query", NULL);
+		if($this->getRequest()->isPost()) {
+			$currentModule = $this->getParam("module", "");
+			$currentController = $this->getParam("controller", "");
+			$currentAction = $this->getParam("action", "");
+			
+			// redireciona para a tela com os parametros por get
+			\PHPMyPanel\Helpers\Redirect::go("/" . $currentModule . "/" . $currentController . "/" . $currentAction . "/pagina/1/query/" . urlencode($query));
+		}
+
 		// inicia a query
 		$select = $this->model->queryBuilder();
 
 		// cria o hook para manipulação da qeury
 		$select = $this->doBeforeList($select);
 
+		// faz o filtro se houver
+		if(strlen($query??"") > 0) {
+
+			// ajusta a query
+			$query = urldecode($query);
+
+			// recupera o campo de busca
+			$columnSearch = $this->model->getSearchField();
+
+			// adiciona o nome da tabela para nao dar erro de ambiguidade caso tenha JOIN
+			if($columnSearch == $this->model->getDescriptionField()) {
+				$columnSearch = $this->model->getTable() . "." . $columnSearch;
+			}
+
+			// faz o filtro
+			// @todo verificar se é SQLite para criar a função remove_acento
+			// $select->whereRaw("(remove_acento(" . $columnSearch . ") like remove_acento(?))", ["%" . $query . "%"]);
+			$select->whereRaw("((" . $columnSearch . ") like (?))", ["%" . $query . "%"]);
+
+			// assina a variavel da query
+			$this->view->core_query = $query;
+
+		}
+		
 		// seta a pagina atual
 		$currentPage = (int)$this->getParam("pagina", 1);
 		\Illuminate\Pagination\Paginator::currentPageResolver(function() use ($currentPage) {
