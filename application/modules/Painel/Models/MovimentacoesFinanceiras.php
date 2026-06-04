@@ -53,12 +53,13 @@ class MovimentacoesFinanceiras extends \Application\Painel\Helpers\Model
 		]);
 
 		// seta o tamanho da coluna bootstrap
-		$this->setBootstrapColumnSize("idconta_financeira", 4);
-		$this->setBootstrapColumnSize("data_movimento", 4);
-		$this->setBootstrapColumnSize("efetivado", 4);
+		$this->setBootstrapColumnSize("tipo", 2);
+		$this->setBootstrapColumnSize("data_movimento", 2);
 		$this->setBootstrapColumnSize("valor", 2);
-		$this->setBootstrapColumnSize("parceiro", 12);
+		$this->setBootstrapColumnSize("parceiro", 6);
 		$this->setBootstrapColumnSize("idnatureza_financeira", 3);
+		$this->setBootstrapColumnSize("idconta_financeira", 3);
 		$this->setBootstrapColumnSize("descricao", 6);
+		$this->setBootstrapColumnSize("efetivado", 6);
 	}
 }

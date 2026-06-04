@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme-radius="0.5" data-bs-theme="{$smarty.cookies.theme|default:"light"}" data-bs-theme-font="sans-serif" data-bs-theme-base="neutral" data-bs-theme-primary="azure">
+<html lang="en" data-bs-theme-radius="0" data-bs-theme="{$smarty.cookies.theme|default:"light"}" data-bs-theme-font="sans-serif" data-bs-theme-base="neutral" data-bs-theme-primary="indigo">
 	<head>
 		
 		<meta charset="utf-8">
