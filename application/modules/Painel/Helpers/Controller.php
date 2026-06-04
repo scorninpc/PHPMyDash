@@ -30,7 +30,12 @@ class Controller extends \PHPMyPanel\Internal\Controller
 			$currentAction = $this->getParam("action", "");
 			
 			// redireciona para a tela com os parametros por get
-			\PHPMyPanel\Helpers\Redirect::go("/" . $currentModule . "/" . $currentController . "/" . $currentAction . "/pagina/1/query/" . urlencode($query));
+			if(strlen($query?:"") > 0) {
+				\PHPMyPanel\Helpers\Redirect::go("/" . $currentModule . "/" . $currentController . "/" . $currentAction . "/pagina/1/query/" . urlencode($query));
+			}
+			else {
+				\PHPMyPanel\Helpers\Redirect::go("/" . $currentModule . "/" . $currentController . "/" . $currentAction);
+			}
 		}
 
 		// inicia a query

@@ -4,28 +4,34 @@
 		<div class="row g-2 align-items-center">
 
 			{* titulo *}
-			<div class="col-auto col-md-9">
+			<div class="col">
 				<div class="page-pretitle">{$core_funcionalidade['nome']|escape}</div>
 				<h2 class="page-title">Listagem de {$core_funcionalidade['nome']|escape}</h2>
 			</div>
 
-			{* busca *}
-			<div class="col-auto ms-auto d-print-none">
-				<form action="{$this->url(['controller'=>$core_funcionalidade['controlador'], 'action'=>"index"], "painel")}" method="post">
-					<div class="input-group input-group-flat">
-						<input type="text" name="query" value="{$core_query|default:""|escape}" class="form-control" placeholder="Procurar...">
-						<span class="input-group-text p-0">
-							<button class="btn btn-action">
-								<i class="fa-solid fa-magnifying-glass"></i>
-							</button>
-						</span>
-					</div>
-				</form>
-			</div>
+			
 
 			{* botoes *}
 			<div class="col-auto ms-auto d-print-none">
+
 				<div class="btn-list">
+
+					{* busca *}
+					<form action="{$this->url(['controller'=>$core_funcionalidade['controlador'], 'action'=>"index"], "painel")}" method="post" class="w-100 w-md-auto">
+						<div class="input-group input-group-flat">
+							<input type="text" name="query" value="{$core_query|default:""|escape}" class="form-control" placeholder="Procurar...">
+							<span class="input-group-text p-0">
+								<button class="btn btn-action">
+									<i class="fa-solid fa-magnifying-glass"></i>
+								</button>
+							</span>
+						</div>
+					</form>
+
+					<a href="#modalImportar" class="btn btn-primary btn btn-primary btn-icon px-0 px-sm-3" data-bs-toggle="modal">
+						<i class="fa-solid fa-file-import"></i>
+						<span class="d-none d-sm-inline-block ps-1">Importar</span>
+					</a>
 
 					<a href="{$this->url(['controller'=>$core_funcionalidade['controlador'], 'action'=>"form"], "painel")}" class="btn btn-primary btn btn-primary btn-icon px-0 px-sm-3">
 						<i class="fa-solid fa-plus"></i>
@@ -39,6 +45,26 @@
 	</div>
 </div>
 
+{* modal de importar *}
+<div class="modal fade" id="modalImportar" tabindex="-1" aria-labelledby="modalImportar" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="modalImportarLabel">Importar</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<label class="form-label" for="arquivo_importar">Arquivo</label>
+				<input type="file" name="arquivo" id="arquivo_importar" class="form-control">
+				<span class="form-check-description">Arquivos CSV ou OFX</span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-success">Enviar</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 {* page body *}
 <div class="page-body">
