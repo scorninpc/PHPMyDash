@@ -17,7 +17,7 @@ class MovimentacoesFinanceiras extends \Application\Painel\Helpers\Model
 	public function configure()
 	{
 		// adiciona os campos da tabela
-		$this->addField("idconta_financeira", \Application\Painel\Helpers\Model::FIELDTYPE_INTEGER, "", "Conta da movimentação financeira");
+		$this->addField("idconta_financeira", \Application\Painel\Helpers\Model::FIELDTYPE_INTEGER, "Conta", "Conta da movimentação financeira");
 		$this->addField("data_movimento", \Application\Painel\Helpers\Model::FIELDTYPE_DATE, "Data", "Data da movimentação financeira");
 		$this->addField("efetivado", \Application\Painel\Helpers\Model::FIELDTYPE_BOOLEAN, "Efetivado", "Informa se a movimentação financeira está efetivado");
 		$this->addField("valor", \Application\Painel\Helpers\Model::FIELDTYPE_DECIMAL, "Valor", "Valor da movimentação financeira");
@@ -38,6 +38,10 @@ class MovimentacoesFinanceiras extends \Application\Painel\Helpers\Model
 		$this->setVisibility("parceiro", TRUE, TRUE, TRUE);
 		$this->setVisibility("idnatureza_financeira", TRUE, TRUE, TRUE);
 		$this->setVisibility("descricao", TRUE, TRUE, FALSE);
+
+		// seta o autocomplete
+		$this->setAutocomplete("idconta_financeira", "\\Application\\Painel\\Models\\ContasFinanceiras");
+		$this->setAutocomplete("idnatureza_financeira", "\\Application\\Painel\\Models\\NaturezasFinanceiras");
 
 		// seta o tamanho da coluna bootstrap
 		$this->setBootstrapColumnSize("idconta_financeira", 4);
